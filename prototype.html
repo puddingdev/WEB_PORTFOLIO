@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pudding — Game Designer Portfolio</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --purple:       #7C3AED;
+    --purple-mid:   #9333EA;
+    --purple-light: #EDE9FE;
+    --purple-pale:  #F5F3FF;
+    --purple-dark:  #5B21B6;
+    --purple-muted: #C4B5FD;
+
+    --slate-50:  #FAFAFA;
+    --slate-100: #F4F4F5;
+    --slate-200: #E4E4E7;
+    --slate-300: #D1D5DB;
+    --slate-400: #9CA3AF;
+    --slate-600: #52525B;
+    --slate-700: #3F3F46;
+    --slate-800: #27272A;
+    --slate-900: #18181B;
+    --white: #FFFFFF;
+
+    /* legacy aliases so nothing breaks */
+    --indigo:       var(--purple);
+    --indigo-light: var(--purple-light);
+    --indigo-dark:  var(--purple-dark);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+    background: var(--purple-pale);
+    color: var(--slate-800);
+    line-height: 1.6;
+  }
+
+  /* NAVBAR */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(245,243,255,0.88);
+    backdrop-filter: blur(14px);
+    border-bottom: 1.5px solid var(--purple-light);
+    z-index: 100;
+    padding: 0 2rem;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--purple);
+    letter-spacing: -0.5px;
+    background: var(--purple-light);
+    padding: 0.25rem 0.75rem;
+    border-radius: 8px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 0.3rem;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--slate-600);
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.3rem 0.75rem;
+    border-radius: 8px;
+    transition: all 0.15s;
+  }
+  .nav-links a:hover { background: var(--purple-light); color: var(--purple); }
+
+  /* HERO + ABOUT COMBINED */
+  .hero-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 90px 2rem 4rem;
+  }
+  .hero-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 3rem;
+    margin-bottom: 2rem;
+  }
+  .hero-content { flex: 1; }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--purple-light);
+    color: var(--purple);
+    padding: 0.3rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: 0.3px;
+    border: 1px solid var(--purple-muted);
+  }
+  .hero-badge::before { content: '◈'; font-size: 0.65rem; }
+  .hero-content h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    color: var(--slate-900);
+    line-height: 1.15;
+    margin-bottom: 0.25rem;
+    letter-spacing: -1px;
+  }
+  .hero-nickname {
+    font-size: 0.95rem;
+    color: var(--slate-400);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  .hero-content p {
+    font-size: 0.96rem;
+    color: var(--slate-600);
+    max-width: 480px;
+    margin-bottom: 1.6rem;
+    line-height: 1.75;
+  }
+  .hero-btns {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .hero-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    padding-top: 2rem;
+    border-top: 1.5px solid var(--purple-light);
+  }
+
+  /* blocks.so style panels */
+  .block-panel {
+    background: var(--white);
+    border: 1.5px solid var(--purple-light);
+    border-radius: 16px;
+    padding: 1.5rem;
+  }
+
+  .who-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 0.5rem;
+  }
+  .who-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin-bottom: 0.9rem;
+    letter-spacing: -0.3px;
+  }
+  .who-bio p {
+    font-size: 0.88rem;
+    color: var(--slate-600);
+    line-height: 1.75;
+    margin-bottom: 0.75rem;
+  }
+  .btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .btn-primary {
+    background: var(--indigo);
+    color: white;
+  }
+  .btn-primary:hover { background: var(--indigo-dark); transform: translateY(-1px); }
+  .btn-outline {
+    background: white;
+    color: var(--slate-800);
+    border: 1.5px solid var(--slate-200);
+  }
+  .btn-outline:hover { border-color: var(--indigo); color: var(--indigo); }
+
+  .hero-visual {
+    flex: 0 0 280px;
+    height: 320px;
+    background: radial-gradient(ellipse at 50% 60%, #ede9fe 0%, #f5f3ff 55%, #ede9fe 100%);
+    border-radius: 20px;
+    border: 1.5px solid var(--purple-light);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--indigo) 1px, transparent 1px),
+      linear-gradient(90deg, var(--indigo) 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0.04;
+  }
+  /* fade ขอบล่างให้กลืนกับ bg */
+  .hero-visual::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(to top, #ede9fe 0%, transparent 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .hero-photo {
+    position: relative;
+    z-index: 1;
+    height: 295px;
+    width: auto;
+    object-fit: contain;
+    object-position: bottom center;
+    mix-blend-mode: multiply;
+  }
+
+  /* SECTION COMMON */
+  section {
+    padding: 4rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--purple);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    background: var(--purple-light);
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 5px;
+  }
+  .section-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    color: var(--slate-900);
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.5px;
+    margin-top: 0.4rem;
+  }
+  .section-sub {
+    color: var(--slate-600);
+    font-size: 0.95rem;
+    max-width: 500px;
+  }
+  .section-header { margin-bottom: 2rem; }
+
+  /* ABOUT (merged into hero-bottom) */
+  .achievements {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .achievement {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    background: var(--purple-pale);
+    border: 1px solid var(--purple-light);
+    border-radius: 10px;
+    padding: 0.6rem 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--slate-700);
+  }
+  .achievement-icon { font-size: 1rem; }
+
+  .skills-block {}
+  .skill-group { margin-bottom: 1.5rem; }
+  .skill-group-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--slate-400);
+    margin-bottom: 0.6rem;
+  }
+  .skill-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .chip {
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+    border: 1px solid var(--purple-muted);
+  }
+  .chip.gray {
+    background: var(--slate-100);
+    color: var(--slate-600);
+    border: 1px solid var(--slate-200);
+  }
+
+  /* PROJECTS */
+  .filter-tabs {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    background: var(--white);
+    border: 1.5px solid var(--purple-light);
+    border-radius: 12px;
+    padding: 0.4rem;
+    width: fit-content;
+  }
+  .tab {
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--slate-600);
+    transition: all 0.15s;
+  }
+  .tab:hover { background: var(--purple-pale); color: var(--purple); }
+  .tab.active {
+    background: var(--purple);
+    color: white;
+    box-shadow: 0 2px 8px rgba(124,58,237,0.3);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  /* PROJECT CARD */
+  .card {
+    background: var(--white);
+    border: 1.5px solid var(--purple-light);
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover {
+    border-color: var(--purple);
+    box-shadow: 0 6px 24px rgba(124,58,237,0.12);
+    transform: translateY(-2px);
+  }
+  .card.featured {
+    grid-column: span 2;
+    border-color: var(--purple);
+    background: linear-gradient(135deg, #ffffff 0%, var(--purple-pale) 100%);
+  }
+
+  .card-thumb {
+    height: 160px;
+    background: var(--slate-100);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    overflow: hidden;
+  }
+  .card.featured .card-thumb { height: 200px; }
+  .card-thumb-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--slate-200) 1px, transparent 1px),
+      linear-gradient(90deg, var(--slate-200) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.5;
+  }
+  .card-thumb-icon { position: relative; z-index: 1; }
+
+  .card-thumb.indigo-bg {
+    background: linear-gradient(135deg, var(--indigo) 0%, #7C3AED 100%);
+  }
+  .card-thumb.green-bg {
+    background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+  }
+  .card-thumb.orange-bg {
+    background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
+  }
+  .card-thumb.slate-bg {
+    background: linear-gradient(135deg, #334155 0%, #475569 100%);
+  }
+  .card-thumb.red-bg {
+    background: linear-gradient(135deg, #DC2626 0%, #EF4444 100%);
+  }
+  .card-thumb.purple-bg {
+    background: linear-gradient(135deg, #7C3AED 0%, #A855F7 100%);
+  }
+
+  .featured-badge {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: var(--indigo);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .card-body { padding: 1.2rem; flex: 1; display: flex; flex-direction: column; }
+  .card-tags {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.7rem;
+  }
+  .tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .tag.games { background: #EDE9FE; color: #6D28D9; border: 1px solid #C4B5FD; }
+  .tag.design { background: #FDF4FF; color: #86198F; border: 1px solid #E879F9; }
+  .tag.web   { background: #F0FDF4; color: #166534; border: 1px solid #86EFAC; }
+  .tag.wip   { background: #FFF7ED; color: #9A3412; border: 1px solid #FDB67A; }
+  .tag.idea  { background: var(--slate-100); color: var(--slate-600); border: 1px solid var(--slate-200); }
+  .tag.genre { background: var(--purple-pale); color: var(--purple); border: 1px solid var(--purple-light); }
+
+  .card-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--slate-900);
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.3px;
+  }
+  .card.featured .card-title { font-size: 1.3rem; }
+
+  .card-desc {
+    font-size: 0.85rem;
+    color: var(--slate-600);
+    line-height: 1.5;
+    flex: 1;
+    margin-bottom: 1rem;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--slate-100);
+  }
+  .tech-pills { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+  .tech-pill {
+    font-size: 0.68rem;
+    padding: 0.15rem 0.45rem;
+    background: var(--slate-100);
+    color: var(--slate-600);
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  .card-link {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--indigo);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    white-space: nowrap;
+  }
+  .card-link:hover { color: var(--indigo-dark); }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,0.65);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    backdrop-filter: blur(6px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: white;
+    border-radius: 20px;
+    max-width: 860px;
+    width: 100%;
+    max-height: 88vh;
+    overflow-y: auto;
+    animation: slideUp 0.25s ease;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-header {
+    padding: 1.4rem 1.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--slate-100);
+    gap: 1rem;
+  }
+  .modal-header-left { flex: 1; }
+  .modal-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--slate-900);
+    margin: 0.4rem 0 0.25rem;
+  }
+  .modal-subtitle {
+    color: var(--slate-400);
+    font-size: 0.82rem;
+  }
+  .modal-close {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    border: 1.5px solid var(--slate-200);
+    background: white;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--slate-400);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .modal-close:hover { border-color: var(--slate-400); color: var(--slate-800); }
+
+  /* 2-column modal layout */
+  .modal-2col {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 400px;
+  }
+  .modal-left {
+    padding: 1.4rem;
+    border-right: 1px solid var(--slate-100);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .modal-right {
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+  }
+
+  /* Gallery */
+  .gallery-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--slate-400);
+    margin-bottom: 0.5rem;
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .gallery-slot {
+    height: 80px;
+    background: var(--slate-100);
+    border: 1.5px dashed var(--slate-200);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    font-size: 1.4rem;
+    color: var(--slate-300);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    padding: 0.4rem;
+  }
+  .gallery-slot:hover { border-color: var(--indigo); background: var(--indigo-light); }
+  .gallery-slot span {
+    font-size: 0.62rem;
+    color: var(--slate-400);
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  .gallery-slot.full { grid-column: span 2; height: 90px; }
+
+  .media-links { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.5rem; }
+  .media-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    border: 1.5px solid var(--slate-200);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--slate-700);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .media-link:hover { border-color: var(--indigo); color: var(--indigo); background: var(--indigo-light); }
+
+  /* Right side */
+  .modal-section { }
+  .modal-section-title {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--indigo);
+    margin-bottom: 0.6rem;
+  }
+  .modal-section p {
+    font-size: 0.88rem;
+    color: var(--slate-600);
+    line-height: 1.7;
+  }
+
+  /* Spec groups with icons */
+  .spec-groups { display: flex; flex-direction: column; gap: 0.8rem; }
+  .spec-group {
+    background: var(--purple-pale);
+    border: 1px solid var(--purple-light);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+  }
+  .spec-group-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--slate-800);
+  }
+  .spec-group-icon { font-size: 1rem; }
+  .spec-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .spec-list li {
+    font-size: 0.82rem;
+    color: var(--slate-600);
+    padding-left: 0.9rem;
+    position: relative;
+    line-height: 1.5;
+  }
+  .spec-list li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--indigo);
+    font-weight: 700;
+  }
+
+  .modal-footer {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    padding: 1rem 1.5rem 1.4rem;
+    border-top: 1px solid var(--slate-100);
+  }
+  .modal-btn {
+    padding: 0.55rem 1.1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.2s;
+  }
+  .modal-btn.primary { background: var(--indigo); color: white; }
+  .modal-btn.primary:hover { background: var(--indigo-dark); }
+  .modal-btn.outline {
+    background: white;
+    color: var(--slate-700);
+    border: 1.5px solid var(--slate-200);
+  }
+  .modal-btn.outline:hover { border-color: var(--indigo); color: var(--indigo); }
+
+  @media (max-width: 640px) {
+    .modal-2col { grid-template-columns: 1fr; }
+    .modal-left { border-right: none; border-bottom: 1px solid var(--slate-100); }
+  }
+
+  /* BACK TO TOP */
+  .back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 40px; height: 40px;
+    background: var(--purple);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(124,58,237,0.4);
+    z-index: 150;
+    transition: all 0.2s;
+  }
+  .back-to-top.visible { display: flex; }
+  .back-to-top:hover { background: var(--purple-dark); transform: translateY(-2px); }
+
+  /* CONTACT */
+  .contact-section {
+    background: linear-gradient(135deg, var(--purple-dark) 0%, #4C1D95 100%);
+    color: white;
+  }
+  .contact-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+    text-align: center;
+  }
+  .contact-inner .section-label {
+    background: rgba(255,255,255,0.15);
+    color: #DDD6FE;
+  }
+  .contact-inner .section-title { color: white; margin-top: 0.5rem; }
+  .contact-inner .section-sub { color: #C4B5FD; margin: 0.5rem auto 2.5rem; }
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .contact-btn {
+    padding: 0.6rem 1.3rem;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    color: white;
+    background: rgba(255,255,255,0.1);
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    backdrop-filter: blur(4px);
+  }
+  .contact-btn:hover {
+    background: rgba(255,255,255,0.22);
+    border-color: rgba(255,255,255,0.4);
+    transform: translateY(-1px);
+  }
+  footer {
+    background: #3B0764;
+    text-align: center;
+    padding: 1.25rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.78rem;
+    color: #A78BFA;
+  }
+
+  /* HIDDEN cards for filter */
+  .card.hidden { display: none; }
+
+  @media (max-width: 768px) {
+    .hero-top { flex-direction: column; gap: 2rem; }
+    .hero-visual { display: none; }
+    .hero-bottom { grid-template-columns: 1fr; gap: 2rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .card.featured { grid-column: span 1; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo">PUDDING.DEV</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO + ABOUT COMBINED -->
+<div class="hero-section" id="home">
+
+  <!-- TOP: Name + Visual -->
+  <div class="hero-top">
+    <div class="hero-content">
+      <div class="hero-badge">AI / System Game Designer</div>
+      <h1>Arnon Phansuwan</h1>
+      <div class="hero-nickname">Pudding &nbsp;·&nbsp; puddingdev</div>
+      <p>ออกแบบระบบเกม — mechanics, AI behavior และ strategic depth ที่ผู้เล่นรู้สึกได้จริงผ่าน system architecture</p>
+      <div class="hero-btns">
+        <a href="https://github.com/puddingdev" target="_blank" class="btn btn-primary">⌥ GitHub</a>
+        <a href="https://drive.google.com/drive/u/0/folders/1OFCffeBqTZfilQyhI92i_QYk42317ZRR" target="_blank" class="btn btn-outline">📁 Portfolio Drive</a>
+        <a href="https://mail.google.com/mail/?view=cm&to=anonpansuwanxxx@gmail.com" target="_blank" class="btn btn-outline">✉ Email</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-grid"></div>
+      <img src="imageME2.png?v=2" alt="Arnon Phansuwan" class="hero-photo">
+    </div>
+  </div>
+
+  <!-- BOTTOM: Who I Am + Tech Stack -->
+  <div class="hero-bottom" id="about">
+
+    <div class="who-bio block-panel">
+      <div class="who-label">About</div>
+      <div class="who-title">Who I Am</div>
+      <p>สวัสดีครับ! ปัจจุบันกำลังศึกษาอยู่และมุ่งมั่นพัฒนาตัวเองในสาย Game Designer ชอบออกแบบเกมและอยากสร้างประสบการณ์สนุกๆ ให้ผู้เล่น โดยเน้นศึกษาเรื่อง Mechanics, Balancing และ AI Behavior</p>
+      <p>พอมีพื้นฐาน Code มาบ้าง เคยทดลองใช้ Unity 3D และ Unreal Engine 5 และชอบใช้ AI เป็น tools ช่วย guide โค้ดและขึ้น Prototype เพื่อให้เห็นภาพเร็วขึ้น ตอนนี้กำลังมองหาโอกาสฝึกงานเพื่อเรียนรู้และช่วยงานจริงในสตูดิโอครับ!</p>
+      <p style="color:var(--slate-400);font-size:0.85rem;font-style:italic">A student and aspiring Game Designer seeking an internship. Passionate about mechanics, balancing, and AI behavior design. Foundational coding skills, hands-on with Unity 3D &amp; UE5, actively use AI tools for concept design and rapid prototyping.</p>
+      <div class="achievements">
+        <div class="achievement"><span class="achievement-icon">🏆</span><span>Thailand Cyber Top Talent 2023 — CTF Competition</span></div>
+        <div class="achievement"><span class="achievement-icon">📜</span><span>Design Thinking for Data Professionals — Fractal Analytics / Coursera</span></div>
+        <div class="achievement"><span class="achievement-icon">🌐</span><span>CEFR English Assessment — 99/100</span></div>
+      </div>
+    </div>
+
+    <div class="skills-block block-panel">
+      <div class="who-label">Skills</div>
+      <div class="who-title">Tech Stack</div>
+      <div class="skill-group">
+        <div class="skill-group-label">Game Design</div>
+        <div class="skill-chips">
+          <span class="chip">Systems Design (Foundational)</span>
+          <span class="chip">Mechanics Balancing</span>
+          <span class="chip">Narrative Design</span>
+          <span class="chip">AI Behavior Logic</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Engines & Tools</div>
+        <div class="skill-chips">
+          <span class="chip gray">Unity 3D · C# (Basics)</span>
+          <span class="chip gray">Unreal Engine 5 (Basics / Blueprints)</span>
+          <span class="chip gray">Figma / Miro</span>
+          <span class="chip gray">Blender (Basic Modeling)</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Code & Prototype (Web Stack)</div>
+        <div class="skill-chips">
+          <span class="chip gray">Next.js 15 (Basics)</span>
+          <span class="chip gray">TypeScript (Basics)</span>
+          <span class="chip gray">Supabase</span>
+          <span class="chip gray">Tailwind CSS</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">AI Assisted Tools</div>
+        <div class="skill-chips">
+          <span class="chip gray">ChatGPT / Claude</span>
+          <span class="chip gray">GitHub Copilot</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <div class="section-label">Work</div>
+    <div class="section-title">Projects</div>
+    <div class="section-sub">ผลงานการออกแบบเกม, Game Design Documents และ Web Applications</div>
+  </div>
+
+  <div class="filter-tabs">
+    <button class="tab active" onclick="filterProjects('all', this)">All Projects</button>
+    <button class="tab" onclick="filterProjects('game-logic', this)">🎮 Game Design &amp; Logic</button>
+    <button class="tab" onclick="filterProjects('fullstack', this)">⚙️ Full-Stack Web</button>
+    <button class="tab" onclick="filterProjects('saas', this)">🛠 SaaS / Tools</button>
+  </div>
+
+  <div class="projects-grid">
+
+    <!-- SOUL CHESS — Featured -->
+    <div class="card featured" data-cat="game-logic fullstack wip" onclick="openModal('soul-chess')">
+      <div class="card-thumb indigo-bg" style="font-size:4rem">
+        <span class="featured-badge">⭐ Featured</span>
+        ♟
+      </div>
+      <div class="card-body">
+        <div class="card-tags">
+          <span class="tag games">Games</span>
+          <span class="tag genre">Strategic PvP · Web</span>
+        </div>
+        <div class="card-title">Soul Chess</div>
+        <div class="card-desc">Chess reimagined — กระดาน 14×14, ระบบธาตุ 7 ชนิด, สถานะผิดปกติ และ Real-time Multiplayer ผ่าน Supabase</div>
+        <div class="card-footer">
+          <div class="tech-pills">
+            <span class="tech-pill">Next.js 15</span>
+            <span class="tech-pill">TypeScript</span>
+            <span class="tech-pill">Supabase</span>
+          </div>
+          <span class="card-link">Details →</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CURSED -->
+    <div class="card" data-cat="game-logic" onclick="openModal('cursed')">
+      <div class="card-thumb red-bg">
+        <div class="card-thumb-bg"></div>
+        <span class="card-thumb-icon">👁</span>
+      </div>
+      <div class="card-body">
+        <div class="card-tags">
+          <span class="tag design">Game Design</span>
+          <span class="tag genre">Horror · Narrative</span>
+        </div>
+        <div class="card-title">CURSED (คำสาปแช่ง)</div>
+        <div class="card-desc">เกมแอ็กชันสยองขวัญไทยโบราณ — ทายาทหมอผีล่าของขลังเพื่อถอนคำสาปร้าย Unreal Engine 5</div>
+        <div class="card-footer">
+          <div class="tech-pills">
+            <span class="tech-pill">Unreal Engine 5</span>
+            <span class="tech-pill">Behavior Trees</span>
+          </div>
+          <span class="card-link">Details →</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAGICIAN -->
+    <div class="card" data-cat="game-logic" onclick="openModal('magician')">
+      <div class="card-thumb purple-bg">
+        <div class="card-thumb-bg"></div>
+        <span class="card-thumb-icon">🪄</span>
+      </div>
+      <div class="card-body">
+        <div class="card-tags">
+          <span class="tag design">Game Design</span>
+          <span class="tag genre">FPS · Action RPG</span>
+        </div>
+        <div class="card-title">MAGICIAN</div>
+        <div class="card-desc">เกม FPS เวทมนตร์แนวแข่งขัน ผสมธาตุ 5 ชนิดเพื่อสร้างคอมโบสกิล รองรับ PvE และ PvP</div>
+        <div class="card-footer">
+          <div class="tech-pills">
+            <span class="tech-pill">Unity 3D</span>
+            <span class="tech-pill">GDD</span>
+          </div>
+          <span class="card-link">Details →</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPALAXY -->
+    <div class="card" data-cat="game-logic" onclick="openModal('papalaxy')">
+      <div class="card-thumb orange-bg">
+        <div class="card-thumb-bg"></div>
+        <span class="card-thumb-icon">🪐</span>
+      </div>
+      <div class="card-body">
+        <div class="card-tags">
+          <span class="tag design">Game Design</span>
+          <span class="tag genre">Board Game · Strategy</span>
+        </div>
+        <div class="card-title">PAPALAXY</div>
+        <div class="card-desc">บอร์ดเกมแนวแข่งขันในอวกาศ ครองดาว บริหารพลังงาน หลบหลุมดำ สำหรับ 4 ผู้เล่น</div>
+        <div class="card-footer">
+          <div class="tech-pills">
+            <span class="tech-pill">Board Game</span>
+            <span class="tech-pill">Tabletopia</span>
+          </div>
+          <span class="card-link">Details →</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- POS PUD -->
+    <div class="card" data-cat="saas fullstack" onclick="openModal('pos-pud')">
+      <div class="card-thumb green-bg">
+        <div class="card-thumb-bg"></div>
+        <span class="card-thumb-icon">🧾</span>
+      </div>
+      <div class="card-body">
+        <div class="card-tags">
+          <span class="tag web">Web</span>
+          <span class="tag genre">POS · SaaS</span>
+        </div>
+        <div class="card-title">POS PUD</div>
+        <div class="card-desc">Multi-tenant Restaurant POS — QR ordering, Kitchen Display System, PromptPay, real-time sync</div>
+        <div class="card-footer">
+          <div class="tech-pills">
+            <span class="tech-pill">Next.js 15</span>
+            <span class="tech-pill">Supabase</span>
+            <span class="tech-pill">Prisma</span>
+          </div>
+          <span class="card-link">Details →</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCOOP BY LOKI -->
+    <div class="card" data-cat="fullstack" onclick="openModal('scoop-loki')">
+      <div class="card-thumb" style="background: linear-gradient(135deg,#0EA5E9,#38BDF8)">
+        <div class="card-thumb-bg"></div>
+        <span class="card-thumb-icon">🍦</span>
+      </div>
+      <div class="card-body">
+        <div class="card-tags">
+          <span class="tag web">Web</span>
+          <span class="tag genre">E-Commerce · Ordering</span>
+        </div>
+        <div class="card-title">Scoop by Loki</div>
+        <div class="card-desc">ระบบสั่งซื้อไอศกรีม Online แบบ 3 ขั้นตอน รองรับ delivery zone และ Google Sheets backend</div>
+        <div class="card-footer">
+          <div class="tech-pills">
+            <span class="tech-pill">Next.js</span>
+            <span class="tech-pill">Google Sheets</span>
+          </div>
+          <span class="card-link">Details →</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAFE POS -->
+    <div class="card" data-cat="saas" onclick="openModal('cafe-pos')">
+      <div class="card-thumb slate-bg">
+        <div class="card-thumb-bg"></div>
+        <span class="card-thumb-icon">☕</span>
+      </div>
+      <div class="card-body">
+        <div class="card-tags">
+          <span class="tag wip">In Progress</span>
+          <span class="tag genre">POS · Cafe</span>
+        </div>
+        <div class="card-title">Cafe POS</div>
+        <div class="card-desc">POS ร้านเครื่องดื่มส่วนตัว iPad-first, จัดการเมนู สต็อก และยอดขายรายวัน</div>
+        <div class="card-footer">
+          <div class="tech-pills">
+            <span class="tech-pill">Next.js</span>
+            <span class="tech-pill">Google Apps Script</span>
+          </div>
+          <span class="card-link">Details →</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-section" id="contact">
+  <div class="contact-inner">
+    <div class="section-label">Contact</div>
+    <div class="section-title">Let's Work Together</div>
+    <div class="section-sub">สนใจร่วมงานหรือต้องการดูผลงานเพิ่มเติม ติดต่อได้เลย</div>
+    <div class="contact-links">
+      <a href="https://github.com/puddingdev" target="_blank" class="contact-btn">⌥ GitHub</a>
+      <a href="https://drive.google.com/drive/u/0/folders/1OFCffeBqTZfilQyhI92i_QYk42317ZRR" target="_blank" class="contact-btn">📁 Portfolio Drive</a>
+      <a href="https://mail.google.com/mail/?view=cm&to=anonpansuwanxxx@gmail.com" target="_blank" class="contact-btn">✉ anonpansuwanxxx@gmail.com</a>
+    </div>
+  </div>
+</div>
+<footer>© 2026 Arnon Phansuwan (Pudding) · Built with HTML · CSS · JavaScript</footer>
+
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- MODAL OVERLAY -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<script>
+const DRIVE_MAIN    = 'https://drive.google.com/drive/u/0/folders/1OFCffeBqTZfilQyhI92i_QYk42317ZRR';
+const DRIVE_CHESS   = 'https://drive.google.com/drive/u/0/folders/1KjlWA-FeI26VQGBQ6YiiD3VzdhXuVJsG';
+const DRIVE_CURSED  = 'https://drive.google.com/drive/folders/1M6cXR6LDHx6EoDypFrXWLRZ3nF2L5Nrf';
+const DRIVE_MAGIC   = 'https://drive.google.com/drive/folders/1AmnY8F4l8Yz87mMMGBRlP3IFprcUkg7L';
+const DRIVE_BOARD   = 'https://drive.google.com/drive/folders/1vUqgymfMdsE8_MUlvEi0fC8gdR7eRsZi';
+const TABLETOPIA    = 'https://tabletopia.com/workshop/games/papalaxy/1-4players/test';
+
+const projects = {
+  'soul-chess': {
+    icon: '♟', bg: 'indigo-bg',
+    tags: [{t:'Game Design & Logic',c:'games'},{t:'Full-Stack Web',c:'web'},{t:'Strategic PvP',c:'genre'},{t:'In Progress',c:'wip'}],
+    title: 'Soul Chess',
+    subtitle: 'Turn-Based PvP · PC / Web · Next.js 15 + TypeScript + Supabase',
+    overview: 'ดัดแปลงสถาปัตยกรรมหมากรุกคลาสสิกให้กลายเป็นเกมวางแผน PvP ที่มีความลึกด้านกลยุทธ์สูงขึ้น นำระบบธาตุ, สิทธิพิเศษยูนิต, และสถานะผิดปกติมาผสมผสาน พร้อม Real-time Multiplayer',
+    gallery: [
+      {label:'Board UI', icon:'♟'},
+      {label:'Element Matrix', icon:'⚡'},
+      {label:'Unit Classes', icon:'🛡'},
+      {label:'Multiplayer Sync', icon:'🌐'}
+    ],
+    specGroups: [
+      { icon: '♟', label: 'Board Architecture', items: [
+        'กระดาน 14×14 ช่อง รองรับ Area Control วงกว้าง',
+        'ยูนิต 16 ตัวต่อฝ่าย แบ่งเป็น 8 Unit Classes (Tank, DPS, Control)',
+        'Movement & Attack Range คำนวณผ่านพิกัด X,Y เฉพาะตัว'
+      ]},
+      { icon: '⚡', label: 'Spell & Elements', items: [
+        'ระบบธาตุ 7 ชนิด — คำนวณ damage multiplier แบบ matrix',
+        'Status Effects: Freeze (หยุดเดิน) และ Burn (DoT ต่อ turn)',
+        'Active Field Mechanics — ยูนิตปรับสิ่งแวดล้อมรอบตัวได้'
+      ]},
+      { icon: '🧠', label: 'Turn Engine & Win Logic', items: [
+        'Action Points Loop — กำหนดขีดจำกัดพลังงานต่อ turn',
+        'Win Condition 3 รูปแบบ: HP=0, Point threshold, Surrender API'
+      ]},
+      { icon: '🌐', label: 'Real-time Multiplayer', items: [
+        'State sync ผ่าน Supabase Channels — low latency',
+        'Sync การเดินหมาก, สกิล, สถานะผิดปกติแบบ real-time'
+      ]}
+    ],
+    tech: ['Next.js 15', 'TypeScript', 'Supabase', 'Tailwind CSS', 'Vercel'],
+    links: [
+      {label:'📁 Soul Chess Drive', url: DRIVE_CHESS, type:'primary'},
+      {label:'🎮 Live Demo', url:'https://soul-chess-alpha.vercel.app/', type:'outline'}
+    ]
+  },
+  'cursed': {
+    icon: '👁', bg: 'red-bg',
+    tags: [{t:'Game Design & Logic',c:'games'},{t:'Horror',c:'genre'},{t:'Narrative',c:'genre'}],
+    title: 'CURSED (คำสาปแช่ง)',
+    subtitle: 'Single-player Action Horror · PC/Console Concept · Unreal Engine 5',
+    overview: 'เกมแอ็กชันสยองขวัญเหนือธรรมชาติสไตล์ไทยโบราณ เรื่องราวของทายาทหมอผีที่ต้องล่าเศษเสี้ยวความทรงจำและโบราณวัตถุเพื่อถอนคำสาปร้ายที่กำลังกลืนกินร่างของแฟนสาว',
+    gallery: [
+      {label:'Story Map', icon:'📖'},
+      {label:'Dialogue System', icon:'💬'},
+      {label:'AI Behavior', icon:'🧠'},
+      {label:'Upgrade Tree', icon:'🌿'}
+    ],
+    specGroups: [
+      { icon: '📖', label: 'Narrative Design', items: [
+        '3-Act Structure: 7 Chapters, Estimated Playtime ~11 ชั่วโมง',
+        'Dynamic Dialogue System — เลือกคำตอบส่งผลต่อ Multiple Endings',
+        'Item-Narrative Integration — ทุกไอเทมมี Lore Archive'
+      ]},
+      { icon: '🌿', label: 'Progression System', items: [
+        'Sorcery Upgrade — สะสมค่าสมาธิจาก Occult Puzzles เพื่อปลดล็อกคาถา',
+        'ยันต์และคาถาระดับสูงเปิดตามสายเนื้อเรื่อง'
+      ]},
+      { icon: '🧠', label: 'AI & Enemy Behavior', items: [
+        'Perception-driven Danger Level — ศัตรูปรับความดุดันตาม Curse Progression',
+        'Alertness States — FSM ควบคุมพฤติกรรมผีตามระยะและความรู้สึก'
+      ]}
+    ],
+    tech: ['Unreal Engine 5', 'Behavior Trees', 'AI Navigation', 'GDD'],
+    links: [
+      {label:'📁 Cursed Project Drive', url: DRIVE_CURSED, type:'primary'}
+    ]
+  },
+  'magician': {
+    icon: '🪄', bg: 'purple-bg',
+    tags: [{t:'Game Design & Logic',c:'games'},{t:'FPS · Action RPG',c:'genre'},{t:'Multiplayer',c:'genre'}],
+    title: 'MAGICIAN',
+    subtitle: 'Fast-Paced FPS + Action RPG · PC/Console · Unity 3D',
+    overview: 'เกม FPS เวทมนตร์ที่ผู้เล่นรับบทเป็นจอมเวท ผสมธาตุเพื่อสร้างคอมโบสกิลหลากหลาย รองรับ PvE Co-op บอสยักษ์ และ PvP แข่งขันยึดพื้นที่แบบทีม 3v3/5v5',
+    gallery: [
+      {label:'Element Chart', icon:'🔥'},
+      {label:'Combo System', icon:'⚡'},
+      {label:'Skill Tree', icon:'🌿'},
+      {label:'Matchmaking', icon:'🎯'}
+    ],
+    specGroups: [
+      { icon: '🔥', label: 'Spell Combination System', items: [
+        'ธาตุ 5 ชนิด: Fire, Water, Earth, Wind, Dark',
+        'Rock-Paper-Scissors Interaction — ผังแพ้ชนะระหว่างธาตุ',
+        'Dynamic Combo Cast — ผสมธาตุสร้าง Animation พิเศษ เช่น Fire Whirl'
+      ]},
+      { icon: '⚡', label: 'High-Mobility Combat', items: [
+        'Dash Mechanics — หลบระยะสั้นด้วยอัตราเร่งสูง',
+        'Air Movement & Blink Steps — กระโดดเปลี่ยนแกนโจมตี',
+        'Mana Economy Management — ป้องกันการรัวสกิล'
+      ]},
+      { icon: '🎯', label: 'UX & Matchmaking', items: [
+        'Matchmaking Engine Concept — สุ่มห้องอิงสถิติผู้เล่น',
+        'Honor System — ลดพฤติกรรม Toxic ในโหมด Objective-based'
+      ]}
+    ],
+    tech: ['Unity 3D', 'GDD', 'Game Systems Design', 'UX Design'],
+    links: [
+      {label:'📁 Magician Drive', url: DRIVE_MAGIC, type:'primary'}
+    ]
+  },
+  'papalaxy': {
+    icon: '🪐', bg: 'orange-bg',
+    tags: [{t:'Game Design & Logic',c:'games'},{t:'Board Game',c:'genre'},{t:'4 Players',c:'genre'}],
+    title: 'PAPALAXY',
+    subtitle: 'Strategic Space Board Game · Tabletopia / Physical · Age 12+',
+    overview: 'บอร์ดเกมแนวแข่งขันครองพื้นที่อวกาศ ผู้เล่น 4 คนรับบทนักสำรวจช่วงชิงดาว บริหารพลังงานเหรียญ หลบหลุมดำ สะสมคะแนนก่อน Big Bang ถูกเปิด',
+    gallery: [
+      {label:'Board Layout', icon:'🗺'},
+      {label:'Event Cards', icon:'🎴'},
+      {label:'Balance Sheet', icon:'📊'},
+      {label:'Simulation', icon:'🔢'}
+    ],
+    specGroups: [
+      { icon: '🗺', label: 'Board Architecture', items: [
+        'Modular Board Grid — สลับสับเปลี่ยนแผนที่ทุกเกม เพิ่ม Replayability',
+        'Turn Loop 3 ขั้น: Income Phase → Roll & Move → Encounter Phase'
+      ]},
+      { icon: '📊', label: 'Economy & Balancing', items: [
+        'Resource Balancing: Coins + Item Cards บริหารต้นทุน/สร้างความได้เปรียบ',
+        'Math Balancing จาก 100+ Simulations — ปรับ Event Card probability',
+        'คำนวณอัตราความคุ้มทุนการซื้อสิทธิ์ยึดดาวเทียบกับการสะสมแต้ม'
+      ]}
+    ],
+    tech: ['Board Game Design', 'Tabletopia', 'Math Balancing', 'Python Simulation'],
+    links: [
+      {label:'📁 Board Game Drive', url: DRIVE_BOARD, type:'primary'},
+      {label:'🎲 Play on Tabletopia', url: TABLETOPIA, type:'outline'}
+    ]
+  },
+  'pos-pud': {
+    icon: '🧾', bg: 'green-bg',
+    tags: [{t:'SaaS / Tools',c:'web'},{t:'Full-Stack Web',c:'genre'},{t:'Multi-tenant',c:'genre'}],
+    title: 'POS PUD',
+    subtitle: 'Restaurant POS SaaS · Next.js 15 · Supabase · Prisma · Production',
+    overview: 'Multi-tenant Restaurant POS สำหรับร้านอาหารขนาดเล็กในไทย ครบทุก role — ลูกค้า, พนักงาน, ครัว, เจ้าของ พร้อม QR ordering และ Real-time sync',
+    gallery: [
+      {label:'QR Ordering', icon:'📲'},
+      {label:'Kitchen Display', icon:'👨‍🍳'},
+      {label:'Admin Dashboard', icon:'📊'},
+      {label:'PromptPay', icon:'💳'}
+    ],
+    specGroups: [
+      { icon: '📲', label: 'Ordering System', items: [
+        'QR Code self-ordering สำหรับลูกค้า ไม่ต้อง login',
+        'PromptPay QR Checkout integration',
+        'Server-side price validation + Atomic transaction checkout'
+      ]},
+      { icon: '🌐', label: 'Real-time & Multi-tenant', items: [
+        'Kitchen Display System (KDS) — ออเดอร์แสดงที่ครัวแบบ Real-time',
+        'Multi-tenant data isolation — แต่ละร้านแยกข้อมูลชัดเจน',
+        'Admin Dashboard: Sales analytics, Menu management, Table QR generation'
+      ]}
+    ],
+    tech: ['Next.js 15', 'React 19', 'TypeScript', 'Tailwind CSS v4', 'Supabase', 'Prisma 6', 'PromptPay'],
+    links: [
+      {label:'🌐 Live Demo', url:'https://pos-pud-dmvi.vercel.app', type:'primary'},
+      {label:'📁 Portfolio Drive', url: DRIVE_MAIN, type:'outline'}
+    ]
+  },
+  'scoop-loki': {
+    icon: '🍦', bg: '',
+    tags: [{t:'Full-Stack Web',c:'web'},{t:'E-Commerce',c:'genre'},{t:'Ordering',c:'genre'}],
+    title: 'Scoop by Loki',
+    subtitle: 'Customer Ordering Website · Next.js + Google Sheets · Production',
+    overview: 'ระบบสั่งซื้อไอศกรีม Online สำหรับร้านส่งตรงบ้าน แทน Facebook Messenger เดิม Mobile-first รองรับลูกค้าไทยที่ใช้ Smartphone',
+    gallery: [
+      {label:'Order Form', icon:'📝'},
+      {label:'Price Calc', icon:'💰'},
+      {label:'Order Tracking', icon:'📦'},
+      {label:'Admin Panel', icon:'🖥'}
+    ],
+    specGroups: [
+      { icon: '📝', label: 'Order Flow', items: [
+        'Order Flow 3 ขั้น: เลือก Flavor → Size/Toppings → ข้อมูลลูกค้า',
+        'คำนวณราคาอัตโนมัติ: Size + Extras + Delivery Zone Fee',
+        'ไม่ต้อง Login — frictionless checkout'
+      ]},
+      { icon: '🗄', label: 'Backend & Integration', items: [
+        'Live Order Tracking Page — polling จาก backend',
+        'Google Sheets database + Google Apps Script backend',
+        'เชื่อมต่อกับ IcePOS admin panel'
+      ]}
+    ],
+    tech: ['Next.js', 'TypeScript', 'Tailwind CSS v4', 'Google Apps Script', 'Google Sheets'],
+    links: [
+      {label:'🍦 ร้านไอติม — IcePOS', url:'https://icepos.vercel.app/', type:'primary'}
+    ]
+  },
+  'cafe-pos': {
+    icon: '☕', bg: 'slate-bg',
+    tags: [{t:'SaaS / Tools',c:'web'},{t:'In Progress',c:'wip'},{t:'Cafe POS',c:'genre'}],
+    title: 'Cafe POS',
+    subtitle: 'Personal Cafe / Drink Shop POS · Next.js · MVP Phase',
+    overview: 'POS ส่วนตัวสำหรับร้านเครื่องดื่ม เน้น iPad landscape, Minimal UI, ง่ายและเร็ว ไม่ over-engineer',
+    gallery: [
+      {label:'POS Interface', icon:'☕'},
+      {label:'Menu Manager', icon:'📋'},
+      {label:'Sales Log', icon:'📊'},
+      {label:'Checkout', icon:'💳'}
+    ],
+    specGroups: [
+      { icon: '📋', label: 'Core Features', items: [
+        'จัดการเมนู: เครื่องดื่ม, ขนาด, Topping',
+        'ตะกร้า + Checkout ง่ายๆ',
+        'ติดตามยอดขายรายวัน'
+      ]},
+      { icon: '🗄', label: 'Backend', items: [
+        'Google Apps Script + Google Sheets backend',
+        'iPad landscape primary, Mobile secondary'
+      ]}
+    ],
+    tech: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Google Apps Script'],
+    links: [
+      {label:'🌐 Live Demo (ร้านน้ำ)', url:'https://gan-pos.vercel.app/', type:'primary'}
+    ]
+  }
+};
+
+const bgStyles = {
+  'indigo-bg': 'background:linear-gradient(135deg,#4F46E5,#7C3AED)',
+  'red-bg':    'background:linear-gradient(135deg,#DC2626,#EF4444)',
+  'purple-bg': 'background:linear-gradient(135deg,#7C3AED,#A855F7)',
+  'orange-bg': 'background:linear-gradient(135deg,#D97706,#F59E0B)',
+  'green-bg':  'background:linear-gradient(135deg,#059669,#10B981)',
+  'slate-bg':  'background:linear-gradient(135deg,#334155,#475569)',
+  '':          'background:linear-gradient(135deg,#0EA5E9,#38BDF8)'
+};
+
+function openModal(id) {
+  const p = projects[id];
+  if (!p) return;
+
+  const tagHtml = p.tags.map(t => `<span class="tag ${t.c}">${t.t}</span>`).join('');
+  const techPills = p.tech.map(t => `<span class="tech-pill">${t}</span>`).join('');
+  const linkHtml = p.links.map(l => `<a href="${l.url}" target="_blank" class="modal-btn ${l.type}">${l.label} ↗</a>`).join('');
+
+  const galleryHtml = p.gallery ? p.gallery.map(g =>
+    `<div class="gallery-slot"><span style="font-size:1.6rem">${g.icon}</span><span>${g.label}</span></div>`
+  ).join('') : `<div class="gallery-slot full"><span style="font-size:2rem">🖼</span><span>Image Placeholder</span></div>`;
+
+  const specGroupsHtml = p.specGroups.map(g => `
+    <div class="spec-group">
+      <div class="spec-group-header"><span class="spec-group-icon">${g.icon}</span>${g.label}</div>
+      <ul class="spec-list">${g.items.map(i => `<li>${i}</li>`).join('')}</ul>
+    </div>
+  `).join('');
+
+  document.getElementById('modal-content').innerHTML = `
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <div class="card-tags">${tagHtml}</div>
+        <div class="modal-title">${p.title}</div>
+        <div class="modal-subtitle">${p.subtitle}</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <div class="modal-2col">
+      <div class="modal-left">
+        <div class="gallery-label">Media / Visuals</div>
+        <div class="gallery-grid">${galleryHtml}</div>
+      </div>
+
+      <div class="modal-right">
+        <div class="modal-section">
+          <div class="modal-section-title">Overview</div>
+          <p>${p.overview}</p>
+        </div>
+        <div class="modal-section">
+          <div class="modal-section-title">System Design / Features</div>
+          <div class="spec-groups">${specGroupsHtml}</div>
+        </div>
+        <div class="modal-section">
+          <div class="modal-section-title">Tech Stack</div>
+          <div class="tech-pills" style="gap:0.4rem;display:flex;flex-wrap:wrap">${techPills}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">${linkHtml}</div>
+  `;
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function filterProjects(cat, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card').forEach(card => {
+    const cats = (card.dataset.cat || '').split(' ');
+    if (cat === 'all' || cats.includes(cat)) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+
+// Back to Top
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('backToTop');
+  btn.classList.toggle('visible', window.scrollY > 400);
+});
+</script>
+</body>
+</html>
